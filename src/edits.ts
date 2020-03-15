@@ -58,7 +58,7 @@ export async function uploadRelease(options: EditOptions, releaseFile: string) {
             packageName: options.applicationId
         });
 
-        core.debug(`Committed release with Id(${res.data.id}) and Track: ${track}`);
+        core.info(`Committed release with Id(${res.data.id}) and Track: ${track}`);
     }
 }
 
@@ -80,7 +80,7 @@ async function trackVersionCode(appEdit: AppEdit, options: EditOptions, versionC
         status = 'completed'
     }
 
-    core.debug(`Creating Track Release for Edit(${appEdit.id}) for Track(${options.track}) with a UserFraction(${options.userFraction}) and VersionCode(${versionCode})`);
+    core.info(`Creating Track Release for Edit(${appEdit.id}) for Track(${options.track}) with a UserFraction(${options.userFraction}) and VersionCode(${versionCode})`);
     const res = await androidPublisher.edits.tracks
         .update({
             auth: options.auth,
@@ -109,7 +109,7 @@ async function uploadMappingFile(appEdit: AppEdit, versionCode: number, options:
     if (options.mappingFile != undefined && options.mappingFile.length > 0) {
         const mapping = readFileSync(options.mappingFile, 'utf-8');
         if (mapping != undefined) {
-            core.debug(`[${appEdit.id}, versionCode=${versionCode}, packageName=${options.applicationId}]: Uploading Proguard mapping file @ ${options.mappingFile}`);
+            core.info(`[${appEdit.id}, versionCode=${versionCode}, packageName=${options.applicationId}]: Uploading Proguard mapping file @ ${options.mappingFile}`);
             await androidPublisher.edits.deobfuscationfiles.upload({
                 auth: options.auth,
                 packageName: options.applicationId,
@@ -126,7 +126,7 @@ async function uploadMappingFile(appEdit: AppEdit, versionCode: number, options:
 }
 
 async function uploadApk(appEdit: AppEdit, options: EditOptions, apkReleaseFile: string): Promise<Apk> {
-    core.debug(`[${appEdit.id}, packageName=${options.applicationId}]: Uploading APK @ ${apkReleaseFile}`);
+    core.info(`[${appEdit.id}, packageName=${options.applicationId}]: Uploading APK @ ${apkReleaseFile}`);
     const res = await androidPublisher.edits.apks.upload({
         auth: options.auth,
         packageName: options.applicationId,
@@ -141,7 +141,7 @@ async function uploadApk(appEdit: AppEdit, options: EditOptions, apkReleaseFile:
 }
 
 async function uploadBundle(appEdit: AppEdit, options: EditOptions, bundleReleaseFile: string): Promise<Bundle> {
-    core.debug(`[${appEdit.id}, packageName=${options.applicationId}]: Uploading App Bundle @ ${bundleReleaseFile}`);
+    core.info(`[${appEdit.id}, packageName=${options.applicationId}]: Uploading App Bundle @ ${bundleReleaseFile}`);
     const res = await androidPublisher.edits.bundles.upload({
         auth: options.auth,
         packageName: options.applicationId,

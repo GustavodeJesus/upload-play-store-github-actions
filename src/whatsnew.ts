@@ -13,17 +13,17 @@ export async function readLocalizedReleaseNotes(whatsNewDir: string | undefined)
 
         let localizedReleaseNotes: LocalizedText[] = [];
 
-        core.debug(`Found files: ${releaseNotes}`);
+        core.info(`Found files: ${releaseNotes}`);
         releaseNotes.forEach(value => {
             const matches = value.match(pattern);
-            core.debug(`Matches for ${value} = ${matches}`);
+            core.info(`Matches for ${value} = ${matches}`);
             if (matches != undefined && matches.length == 2) {
                 const lang = matches[1];
                 const filePath = path.join(whatsNewDir, value);
                 const content = readFileSync(filePath, 'utf-8');
 
                 if (content != undefined) {
-                    core.debug(`Found localized 'whatsnew-*-*' for Lang(${lang})`);
+                    core.info(`Found localized 'whatsnew-*-*' for Lang(${lang})`);
                     localizedReleaseNotes.push(
                         {
                             language: lang,
